@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from backend.ocr import extract_pdf_text, extract_image_text
 from backend.parser import parse_report
 from backend.database import engine, SessionLocal
@@ -133,3 +133,34 @@ def get_reports():
     db.close()
 
     return result
+
+
+@app.delete("/reports/{report_id}")
+def delete_report(report_id: int):
+
+    db = SessionLocal()
+
+    report = db.query(
+        InspectionReport
+    ).filter(
+        InspectionReport.id == report_id
+    ).first()
+
+    if not report:
+
+        db.close()
+
+        raise HTTPException(
+            status_code=404,
+            detail="Report not found"
+        )
+
+    db.delete(report)
+
+    db.commit()
+
+    db.close()
+
+    return {
+        "message": "Report deleted successfully"
+    }

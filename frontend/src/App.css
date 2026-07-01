@@ -1,3 +1,7 @@
+/* ==========================================================
+   GLOBAL
+========================================================== */
+
 *{
     margin:0;
     padding:0;
@@ -6,145 +10,239 @@
 
 body{
 
-    font-family:Arial, Helvetica, sans-serif;
+    margin:0;
 
-    background:#0d203f;
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-    color:white;
+    background:#0F172A;
+
+    color:#F8FAFC;
 
 }
 
-/* Header */
+button{
+
+    font-family:inherit;
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
 
 .header{
 
     width:100%;
 
-    text-align:center;
+    background:#111827;
 
-    padding:30px;
+    border-bottom:1px solid #334155;
 
-    background:#08172d;
+    padding:22px 40px;
 
-    border-bottom:2px solid #2563eb;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
 
 }
 
 .header h1{
 
-    font-size:42px;
+    color:#F8FAFC;
 
-    margin-bottom:10px;
+    font-size:28px;
+
+    font-weight:600;
+
+    margin:0;
 
 }
 
 .header p{
 
-    color:#cfd8e3;
+    color:#94A3B8;
+
+    margin-top:6px;
 
 }
 
-/* Layout */
+/* ==========================================================
+   MAIN LAYOUT
+========================================================== */
 
 .container{
 
     display:flex;
 
-    min-height:calc(100vh - 140px);
+    min-height:calc(100vh - 115px);
 
 }
 
-/* Sidebar */
+
+/* ==========================================================
+   SIDEBAR
+========================================================== */
+
+/* ===========================
+   SIDEBAR
+=========================== */
 
 .sidebar{
 
-    width:260px;
+    width:270px;
 
-    background:#07111f;
+    background:#111827;
 
-    padding:30px;
+    padding:28px 20px;
+
+    border-right:1px solid #2B3648;
 
 }
 
 .sidebar h2{
 
-    margin-bottom:40px;
+    color:white;
 
-    text-align:center;
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:35px;
+
+    text-align:left;
 
 }
+
+
+/* Navigation Buttons */
 
 .sidebar button{
 
     width:100%;
 
-    margin-bottom:20px;
+    display:flex;
 
-    padding:15px;
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    margin-bottom:10px;
 
     border:none;
 
     border-radius:10px;
 
-    background:#1d4275;
+    background:transparent;
 
-    color:white;
+    color:#CBD5E1;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    text-align:left;
 
     cursor:pointer;
 
-    transition:.3s;
+    transition:all .25s ease;
 
 }
 
 .sidebar button:hover{
 
-    background:#2563eb;
+    background:#1F2937;
+
+    color:white;
+
+    transform:translateX(4px);
 
 }
 
-/* Content */
+.sidebar button.active{
+
+    background:#2563EB;
+
+    color:white;
+
+    font-weight:600;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.30);
+
+}
+
+.sidebar button:active{
+
+    transform:scale(.98);
+
+}
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
 
 .content{
 
     flex:1;
 
-    padding:40px;
+    padding:35px;
+
+    background:#0F172A;
+
+    color:#F8FAFC;
 
 }
 
 .content h1{
 
-    font-size:55px;
+    color:#F8FAFC;
 
-    margin-bottom:15px;
+    font-size:40px;
 
 }
 
-/* Dashboard Cards */
+.content p{
 
+    color:#CBD5E1;
+
+}
+
+/* ==========================================================
+   DASHBOARD CARDS
+========================================================== */
 .cards{
 
-    margin-top:40px;
+    margin-top:35px;
 
     display:grid;
 
     grid-template-columns:repeat(4,1fr);
 
-    gap:30px;
+    gap:25px;
 
 }
-
 .card{
 
-    background:#17345d;
+    background:#1E293B;
 
-    border-radius:15px;
+    border:1px solid #334155;
 
-    padding:40px;
+    border-radius:16px;
 
-    text-align:center;
+    padding:30px;
 
     transition:.3s;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
 
 }
 
@@ -152,33 +250,60 @@ body{
 
     transform:translateY(-8px);
 
-    background:#2563eb;
+    border-color:#3B82F6;
+
+    box-shadow:0 15px 35px rgba(59,130,246,.18);
 
 }
 
 .card h2{
 
-    font-size:55px;
+    color:#60A5FA;
+
+    font-size:42px;
 
     margin-bottom:10px;
 
-}.upload-card{
+}
 
-    width:500px;
+.card p{
 
-    margin-top:40px;
+    color:#CBD5E1;
 
-    padding:35px;
+}
+/* ==========================================================
+   UPLOAD
+========================================================== */
 
-    border-radius:18px;
+.upload-text{
+
+    margin-top:10px;
+
+    color:#cbd5e1;
+
+    font-size:16px;
+
+}
+
+.upload-card{
+
+    width:550px;
+
+    margin-top:35px;
 
     background:#17345d;
+
+    padding:30px;
+
+    border-radius:18px;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:25px;
+    gap:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
 
 }
 
@@ -186,11 +311,27 @@ body{
 
     color:white;
 
+    padding:12px;
+
 }
 
 .upload-card button{
 
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
     background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
 
 }
 
@@ -202,9 +343,9 @@ body{
 
 .result-card{
 
-    width:500px;
+    width:550px;
 
-    margin-top:35px;
+    margin-top:30px;
 
     background:#17345d;
 
@@ -212,27 +353,30 @@ body{
 
     border-radius:18px;
 
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+
 }
 
-.upload-text{
 
-    margin-top:10px;
+/* ==========================================================
+   SEARCH BOX
+========================================================== */
 
-    color:#cbd5e1;
+.search-box{
 
-}.search-box{
+    width:420px;
 
-    width:380px;
-
-    padding:12px;
+    padding:14px 18px;
 
     border:none;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    margin:20px 0;
+    background:#1E293B;
 
-    font-size:16px;
+    color:white;
+
+    border:1px solid #334155;
 
     outline:none;
 
@@ -240,25 +384,105 @@ body{
 
 .search-box:focus{
 
-    box-shadow:0 0 12px #3b82f6;
+    border-color:#3B82F6;
 
-}/* ---------- Severity Badges ---------- */
+}
+
+
+
+/* ==========================================================
+   REPORTS TABLE
+========================================================== */
+
+table{
+
+    width:100%;
+
+    margin-top:20px;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    background:#1E293B;
+
+    border:1px solid #334155;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+thead{
+
+    background:#2563EB;
+
+}
+
+th{
+
+    padding:16px 20px;
+
+    text-align:left;
+
+    color:#F8FAFC;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+td{
+
+    padding:16px 20px;
+
+    color:#E2E8F0;
+
+    border-bottom:1px solid #334155;
+
+}
+
+tbody tr{
+
+    transition:all .25s ease;
+
+}
+
+tbody tr:hover{
+
+    background:#273549;
+
+}
+
+tbody tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+/* ==========================================================
+   BADGES
+========================================================== */
 
 .badge{
 
+    display:inline-block;
+
+    min-width:90px;
+
+    text-align:center;
+
     padding:7px 14px;
 
-    border-radius:20px;
+    border-radius:25px;
 
     font-weight:bold;
 
     color:white;
-
-    display:inline-block;
-
-    min-width:80px;
-
-    text-align:center;
 
 }
 
@@ -284,18 +508,216 @@ body{
 
     background:#64748b;
 
-}.card{
+}
 
-    transition:0.3s;
 
-    cursor:pointer;
+/* ==========================================================
+   ACTION COLUMN
+========================================================== */
+
+table th:last-child,
+table td:last-child{
+
+    width:260px;
+
+    min-width:260px;
+
+    text-align:center;
 
 }
 
-.card:hover{
 
-    transform:translateY(-8px);
+/* ==========================================================
+   ACTION BUTTONS
+========================================================== */
 
-    box-shadow:0 12px 25px rgba(0,0,0,.35);
+.action-cell{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    white-space:nowrap;
+
+}
+
+.action-btn,
+.delete-btn{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-width:100px;
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.action-btn{
+
+    background:#2563EB;
+
+}
+
+.action-btn:hover{
+
+    background:#1D4ED8;
+
+}
+
+.delete-btn{
+
+    background:#DC2626;
+
+}
+
+.delete-btn:hover{
+
+    background:#B91C1C;
+
+}
+
+/* ==========================================================
+   REPORT MODAL
+========================================================== */
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.75);
+
+    backdrop-filter:blur(4px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:1000;
+
+}
+
+.modal{
+
+    width:600px;
+
+    max-width:90%;
+
+    background:#1E293B;
+
+    color:#F8FAFC;
+
+    border:1px solid #334155;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+}
+
+.modal h2{
+
+    margin-bottom:20px;
+
+    color:#F8FAFC;
+
+    font-size:26px;
+
+    font-weight:600;
+
+}
+
+.modal p{
+
+    margin:14px 0;
+
+    color:#CBD5E1;
+
+    line-height:1.6;
+
+}
+
+.modal strong{
+
+    color:#F8FAFC;
+
+}
+
+.report-text{
+
+    margin-top:18px;
+
+    background:#0F172A;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    max-height:260px;
+
+    overflow-y:auto;
+
+    line-height:1.7;
+
+    color:#E2E8F0;
+
+}
+
+.modal button{
+
+    margin-top:25px;
+
+    padding:10px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563EB;
+
+    color:white;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+}
+
+.modal button:hover{
+
+    background:#1D4ED8;
+
+    transform:translateY(-2px);
 
 }
