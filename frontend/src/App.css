@@ -220,4 +220,82 @@ body{
 
     color:#cbd5e1;
 
+}.search-box{
+
+    width:380px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    margin:20px 0;
+
+    font-size:16px;
+
+    outline:none;
+
+}
+
+.search-box:focus{
+
+    box-shadow:0 0 12px #3b82f6;
+
+}/* ---------- Severity Badges ---------- */
+
+.badge{
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+    color:white;
+
+    display:inline-block;
+
+    min-width:80px;
+
+    text-align:center;
+
+}
+
+.high{
+
+    background:#dc2626;
+
+}
+
+.medium{
+
+    background:#f59e0b;
+
+}
+
+.low{
+
+    background:#16a34a;
+
+}
+
+.unknown{
+
+    background:#64748b;
+
+}.card{
+
+    transition:0.3s;
+
+    cursor:pointer;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.35);
+
 }

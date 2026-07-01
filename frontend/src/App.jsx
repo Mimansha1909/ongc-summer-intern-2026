@@ -1,34 +1,52 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
 function App() {
+
   const [page, setPage] = useState("dashboard");
 
   const [file, setFile] = useState(null);
+
   const [result, setResult] = useState(null);
+
   const [reports, setReports] = useState([]);
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchReports();
   }, []);
 
   const fetchReports = async () => {
+
     try {
+
       const response = await axios.get(
         "http://127.0.0.1:8000/reports"
       );
 
       setReports(response.data);
-    } catch (error) {
-      console.log(error);
+
     }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
   };
 
   const uploadFile = async () => {
+
     if (!file) {
+
       alert("Please select a file");
+
       return;
+
     }
 
     const formData = new FormData();
@@ -36,6 +54,7 @@ function App() {
     formData.append("file", file);
 
     try {
+
       const response = await axios.post(
         "http://127.0.0.1:8000/upload",
         formData
@@ -46,17 +65,48 @@ function App() {
       fetchReports();
 
       alert("Report Uploaded Successfully!");
-    } catch (error) {
+
+    }
+
+    catch (error) {
+
       console.log(error);
 
       alert("Upload Failed");
+
     }
+
   };
 
-  return (
-    <div className="app">
+  const filteredReports = reports.filter((report) => {
 
-      {/* HEADER */}
+    const value = search.toLowerCase();
+
+    return (
+
+      (report.inspection_id || "")
+        .toLowerCase()
+        .includes(value)
+
+      ||
+
+      (report.severity || "")
+        .toLowerCase()
+        .includes(value)
+
+      ||
+
+      (report.location || "")
+        .toLowerCase()
+        .includes(value)
+
+    );
+
+  });
+
+  return (
+
+    <div className="app">
 
       <header className="header">
 
@@ -71,51 +121,29 @@ function App() {
 
       </header>
 
-      {/* MAIN */}
-
       <div className="container">
-
-        {/* SIDEBAR */}
 
         <aside className="sidebar">
 
           <h2>Inspection Portal</h2>
 
-          <button
-            onClick={() =>
-              setPage("dashboard")
-            }
-          >
+          <button onClick={() => setPage("dashboard")}>
             Dashboard
           </button>
 
-          <button
-            onClick={() =>
-              setPage("upload")
-            }
-          >
+          <button onClick={() => setPage("upload")}>
             Upload Report
           </button>
 
-          <button
-            onClick={() =>
-              setPage("reports")
-            }
-          >
+          <button onClick={() => setPage("reports")}>
             Reports
           </button>
 
-          <button
-            onClick={() =>
-              setPage("about")
-            }
-          >
+          <button onClick={() => setPage("about")}>
             About
           </button>
 
         </aside>
-
-        {/* CONTENT */}
 
         <main className="content">
 
@@ -128,75 +156,77 @@ function App() {
               <h1>Dashboard</h1>
 
               <p>
-                Welcome to the Inspection
-                Report Management &
-                Analysis System.
+                Welcome to the Inspection Report
+                Management & Analysis System.
               </p>
 
               <div className="cards">
 
                 <div className="card">
 
-                  <h2>
-                    {reports.length}
-                  </h2>
+<h2>📄 {reports.length}</h2>
 
-                  <p>Total Reports</p>
+<p>Total Reports</p>
 
-                </div>
+</div>
 
                 <div className="card">
 
-                  <h2>
+<h2>
 
-                    {
-                      reports.filter(
-                        (r) =>
-                          r.severity ===
-                          "High"
-                      ).length
-                    }
+⚠️ {
 
-                  </h2>
+reports.filter(
+(r)=>r.severity==="High"
+).length
 
-                  <p>High Severity</p>
+}
 
-                </div>
+</h2>
+
+<p>High Severity</p>
+
+</div>
+
+               <div className="card">
+
+<h2>
+
+📍 {
+
+new Set(
+reports.map(r=>r.location)
+).size
+
+}
+
+</h2>
+
+<p>Locations</p>
+
+</div>
 
                 <div className="card">
 
-                  <h2>
+<h2>
 
-                    {
-                      new Set(
-                        reports.map(
-                          (r) =>
-                            r.location
-                        )
-                      ).size
-                    }
+💾
 
-                  </h2>
+{
 
-                  <p>Locations</p>
+reports.length>0
+?
+" Online"
+:
+" Offline"
 
-                </div>
+}
 
-                <div className="card">
+</h2>
 
-                  <h2>
+<p>Database</p>
 
-                    {
-                      reports.length > 0
-                        ? "✓"
-                        : "—"
-                    }
-
-                  </h2>
-
-                  <p>Database Active</p>
-
-                </div>
+</div>
 
               </div>
 
@@ -216,9 +246,8 @@ function App() {
 
               <p className="upload-text">
 
-                Upload PDF or Image
-                inspection reports.
-                OCR will automatically
+                Upload PDF or Image inspection
+                reports. OCR will automatically
                 extract the report data.
 
               </p>
@@ -226,18 +255,19 @@ function App() {
               <div className="upload-card">
 
                 <input
+
                   type="file"
+
                   onChange={(e) =>
-                    setFile(
-                      e.target.files[0]
-                    )
+                    setFile(e.target.files[0])
                   }
+
                 />
 
-                <button
-                  onClick={uploadFile}
-                >
+                <button onClick={uploadFile}>
+
                   Upload Report
+
                 </button>
 
               </div>
@@ -247,14 +277,14 @@ function App() {
                 <div className="result-card">
 
                   <h2>
+
                     Upload Successful
+
                   </h2>
 
                   <p>
 
-                    <strong>
-                      File :
-                    </strong>{" "}
+                    <strong>File :</strong>
 
                     {result.filename}
 
@@ -262,9 +292,7 @@ function App() {
 
                   <p>
 
-                    <strong>
-                      Status :
-                    </strong>{" "}
+                    <strong>Status :</strong>
 
                     {result.status}
 
@@ -285,8 +313,26 @@ function App() {
             <>
 
               <h1>
+
                 Stored Reports
+
               </h1>
+
+              <input
+
+                className="search-box"
+
+                type="text"
+
+                placeholder="Search by Inspection ID, Severity or Location..."
+
+                value={search}
+
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+
+              />
 
               <table>
 
@@ -296,17 +342,11 @@ function App() {
 
                     <th>ID</th>
 
-                    <th>
-                      Inspection ID
-                    </th>
+                    <th>Inspection ID</th>
 
-                    <th>
-                      Severity
-                    </th>
+                    <th>Severity</th>
 
-                    <th>
-                      Location
-                    </th>
+                    <th>Location</th>
 
                   </tr>
 
@@ -315,67 +355,69 @@ function App() {
                 <tbody>
 
                   {
-                    reports.length > 0
-                      ? (
-                          reports.map(
-                            (
-                              report
-                            ) => (
 
-                              <tr
-                                key={
-                                  report.id
-                                }
-                              >
+                    filteredReports.length > 0
 
-                                <td>
-                                  {
-                                    report.id
-                                  }
-                                </td>
+                    ?
 
-                                <td>
-                                  {
-                                    report.inspection_id ||
-                                    "-"
-                                  }
-                                </td>
+                    (
 
-                                <td>
-                                  {
-                                    report.severity ||
-                                    "-"
-                                  }
-                                </td>
+                      filteredReports.map(
 
-                                <td>
-                                  {
-                                    report.location ||
-                                    "-"
-                                  }
-                                </td>
+                        (report) => (
 
-                              </tr>
+                          <tr key={report.id}>
 
-                            )
-                          )
-                        )
-                      : (
+                            <td>{report.id}</td>
 
-                          <tr>
+                            <td>{report.inspection_id || "-"}</td>
 
-                            <td
-                              colSpan="4"
-                            >
+                            <td>
 
-                              No Reports
-                              Uploaded Yet
+  <span
+    className={`badge ${
+      report.severity === "High"
+        ? "high"
+        : report.severity === "Medium"
+        ? "medium"
+        : report.severity === "Low"
+        ? "low"
+        : "unknown"
+    }`}
+  >
 
-                            </td>
+    {report.severity || "-"}
+
+  </span>
+
+</td>
+
+                            <td>{report.location || "-"}</td>
 
                           </tr>
 
                         )
+
+                      )
+
+                    )
+
+                    :
+
+                    (
+
+                      <tr>
+
+                        <td colSpan="4">
+
+                          No Matching Reports
+
+                        </td>
+
+                      </tr>
+
+                    )
+
                   }
 
                 </tbody>
@@ -407,8 +449,8 @@ function App() {
               <p>
 
                 Developed during
-                ONGC Summer
-                Internship 2026.
+                ONGC Summer Internship
+                2026.
 
               </p>
 
@@ -421,7 +463,10 @@ function App() {
       </div>
 
     </div>
+
   );
+
 }
 
 export default App;
+

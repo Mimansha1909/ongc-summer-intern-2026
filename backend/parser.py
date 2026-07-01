@@ -4,31 +4,29 @@ def parse_report(text):
 
     data = {}
 
-    inspection_match = re.search(
-        r"Inspection ID[:\s]*([A-Z0-9]+)",
-        text,
-        re.IGNORECASE
-    )
+    patterns = {
 
-    severity_match = re.search(
-        r"Severity[:\s]*([A-Za-z]+)",
-        text,
-        re.IGNORECASE
-    )
+        "inspection_id":
+        r"Inspection\s*ID\s*[:\-]?\s*([A-Za-z0-9-]+)",
 
-    location_match = re.search(
-        r"Location[:\s]*([A-Za-z]+)",
-        text,
-        re.IGNORECASE
-    )
+        "severity":
+        r"Severity\s*[:\-]?\s*(High|Medium|Low)",
 
-    if inspection_match:
-        data["inspection_id"] = inspection_match.group(1)
+        "location":
+        r"Location\s*[:\-]?\s*([A-Za-z ]+)"
 
-    if severity_match:
-        data["severity"] = severity_match.group(1)
+    }
 
-    if location_match:
-        data["location"] = location_match.group(1)
+    for key, pattern in patterns.items():
+
+        match = re.search(
+            pattern,
+            text,
+            re.IGNORECASE
+        )
+
+        if match:
+
+            data[key] = match.group(1).strip()
 
     return data

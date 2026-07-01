@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -15,6 +16,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 Base.metadata.create_all(bind=engine)
 
 UPLOAD_FOLDER = "uploads"
@@ -68,15 +70,23 @@ async def upload_file(file: UploadFile = File(...)):
     db = SessionLocal()
 
     report = InspectionReport(
+
+        filename=file.filename,
+
         inspection_id=parsed_data.get(
             "inspection_id"
         ),
+
         severity=parsed_data.get(
             "severity"
         ),
+
         location=parsed_data.get(
             "location"
-        )
+        ),
+
+        extracted_text=extracted_text
+
     )
 
     db.add(report)
@@ -105,10 +115,19 @@ def get_reports():
     for report in reports:
 
         result.append({
+
             "id": report.id,
+
+            "filename": report.filename,
+
             "inspection_id": report.inspection_id,
+
             "severity": report.severity,
-            "location": report.location
+
+            "location": report.location,
+
+            "extracted_text": report.extracted_text
+
         })
 
     db.close()
