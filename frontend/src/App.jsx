@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
-import heroImage from "./assets/hero.png";
 
 function App() {
+  const [page, setPage] = useState("dashboard");
+
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
   const [reports, setReports] = useState([]);
@@ -17,9 +18,10 @@ function App() {
       const response = await axios.get(
         "http://127.0.0.1:8000/reports"
       );
+
       setReports(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -30,6 +32,7 @@ function App() {
     }
 
     const formData = new FormData();
+
     formData.append("file", file);
 
     try {
@@ -39,171 +42,383 @@ function App() {
       );
 
       setResult(response.data);
+
       fetchReports();
 
+      alert("Report Uploaded Successfully!");
     } catch (error) {
-      console.error(error);
-      alert("Upload failed");
+      console.log(error);
+
+      alert("Upload Failed");
     }
   };
 
   return (
     <div className="app">
 
-      {/* HERO */}
-      <section className="hero">
+      {/* HEADER */}
 
-        <div className="hero-left">
+      <header className="header">
 
-          <h4>ONGC</h4>
+        <h1>
+          Inspection Report Management &
+          Analysis System
+        </h1>
 
-          <h1>
-            Inspection Report
-            <br />
-            Management &
-            <br />
-            Analysis System
-          </h1>
+        <p>
+          ONGC Summer Internship • 2026
+        </p>
 
-          <p>
-            Digitize inspection reports, store records securely,
-            and manage inspection reports efficiently.
-          </p>
+      </header>
 
-          <div className="upload-box">
+      {/* MAIN */}
 
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
+      <div className="container">
 
-            <br />
+        {/* SIDEBAR */}
 
-            <button onClick={uploadFile}>
-              Upload Report
-            </button>
+        <aside className="sidebar">
 
-          </div>
+          <h2>Inspection Portal</h2>
 
-        </div>
+          <button
+            onClick={() =>
+              setPage("dashboard")
+            }
+          >
+            Dashboard
+          </button>
 
-        <div className="hero-right">
+          <button
+            onClick={() =>
+              setPage("upload")
+            }
+          >
+            Upload Report
+          </button>
 
-          <img
-            src={heroImage}
-            alt="Inspection"
-          />
+          <button
+            onClick={() =>
+              setPage("reports")
+            }
+          >
+            Reports
+          </button>
 
-        </div>
+          <button
+            onClick={() =>
+              setPage("about")
+            }
+          >
+            About
+          </button>
 
-      </section>
+        </aside>
 
-      {/* RESULT */}
+        {/* CONTENT */}
 
-      {result && (
+        <main className="content">
 
-        <section className="result-section">
+          {/* DASHBOARD */}
 
-          <div className="result-box">
+          {page === "dashboard" && (
 
-            <h2>Upload Result</h2>
+            <>
 
-            <p>
-              <strong>File :</strong> {result.filename}
-            </p>
+              <h1>Dashboard</h1>
 
-            <p>
-              <strong>Status :</strong> {result.status}
-            </p>
+              <p>
+                Welcome to the Inspection
+                Report Management &
+                Analysis System.
+              </p>
 
-            <h3>Parsed Data</h3>
+              <div className="cards">
 
-            {Object.keys(result.parsed_data).length > 0 ? (
+                <div className="card">
 
-              <pre>
-                {JSON.stringify(
-                  result.parsed_data,
-                  null,
-                  2
-                )}
-              </pre>
+                  <h2>
+                    {reports.length}
+                  </h2>
 
-            ) : (
+                  <p>Total Reports</p>
 
-              <p>No inspection data detected.</p>
+                </div>
 
-            )}
+                <div className="card">
 
-            <h3>Extracted Text</h3>
+                  <h2>
 
-            <div className="text-box">
-              {result.extracted_text}
-            </div>
+                    {
+                      reports.filter(
+                        (r) =>
+                          r.severity ===
+                          "High"
+                      ).length
+                    }
 
-          </div>
+                  </h2>
 
-        </section>
+                  <p>High Severity</p>
 
-      )}
+                </div>
 
-      {/* REPORTS */}
+                <div className="card">
 
-      <section className="reports-section">
+                  <h2>
 
-        <h2>Stored Reports</h2>
+                    {
+                      new Set(
+                        reports.map(
+                          (r) =>
+                            r.location
+                        )
+                      ).size
+                    }
 
-        <table>
+                  </h2>
 
-          <thead>
+                  <p>Locations</p>
 
-            <tr>
+                </div>
 
-              <th>ID</th>
-              <th>Inspection ID</th>
-              <th>Severity</th>
-              <th>Location</th>
+                <div className="card">
 
-            </tr>
+                  <h2>
 
-          </thead>
+                    {
+                      reports.length > 0
+                        ? "✓"
+                        : "—"
+                    }
 
-          <tbody>
+                  </h2>
 
-            {reports.length > 0 ? (
+                  <p>Database Active</p>
 
-              reports.map((report) => (
+                </div>
 
-                <tr key={report.id}>
+              </div>
 
-                  <td>{report.id}</td>
+            </>
 
-                  <td>{report.inspection_id || "-"}</td>
+          )}
 
-                  <td>{report.severity || "-"}</td>
+          {/* UPLOAD */}
 
-                  <td>{report.location || "-"}</td>
+          {page === "upload" && (
 
-                </tr>
+            <>
 
-              ))
+              <h1>
+                Upload Inspection Report
+              </h1>
 
-            ) : (
+              <p className="upload-text">
 
-              <tr>
+                Upload PDF or Image
+                inspection reports.
+                OCR will automatically
+                extract the report data.
 
-                <td colSpan="4" style={{ textAlign: "center" }}>
-                  No reports uploaded yet.
-                </td>
+              </p>
 
-              </tr>
+              <div className="upload-card">
 
-            )}
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    setFile(
+                      e.target.files[0]
+                    )
+                  }
+                />
 
-          </tbody>
+                <button
+                  onClick={uploadFile}
+                >
+                  Upload Report
+                </button>
 
-        </table>
+              </div>
 
-      </section>
+              {result && (
+
+                <div className="result-card">
+
+                  <h2>
+                    Upload Successful
+                  </h2>
+
+                  <p>
+
+                    <strong>
+                      File :
+                    </strong>{" "}
+
+                    {result.filename}
+
+                  </p>
+
+                  <p>
+
+                    <strong>
+                      Status :
+                    </strong>{" "}
+
+                    {result.status}
+
+                  </p>
+
+                </div>
+
+              )}
+
+            </>
+
+          )}
+
+          {/* REPORTS */}
+
+          {page === "reports" && (
+
+            <>
+
+              <h1>
+                Stored Reports
+              </h1>
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th>ID</th>
+
+                    <th>
+                      Inspection ID
+                    </th>
+
+                    <th>
+                      Severity
+                    </th>
+
+                    <th>
+                      Location
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody>
+
+                  {
+                    reports.length > 0
+                      ? (
+                          reports.map(
+                            (
+                              report
+                            ) => (
+
+                              <tr
+                                key={
+                                  report.id
+                                }
+                              >
+
+                                <td>
+                                  {
+                                    report.id
+                                  }
+                                </td>
+
+                                <td>
+                                  {
+                                    report.inspection_id ||
+                                    "-"
+                                  }
+                                </td>
+
+                                <td>
+                                  {
+                                    report.severity ||
+                                    "-"
+                                  }
+                                </td>
+
+                                <td>
+                                  {
+                                    report.location ||
+                                    "-"
+                                  }
+                                </td>
+
+                              </tr>
+
+                            )
+                          )
+                        )
+                      : (
+
+                          <tr>
+
+                            <td
+                              colSpan="4"
+                            >
+
+                              No Reports
+                              Uploaded Yet
+
+                            </td>
+
+                          </tr>
+
+                        )
+                  }
+
+                </tbody>
+
+              </table>
+
+            </>
+
+          )}
+
+          {/* ABOUT */}
+
+          {page === "about" && (
+
+            <>
+
+              <h1>About</h1>
+
+              <p>
+
+                Inspection Report
+                Management &
+                Analysis System
+
+              </p>
+
+              <br />
+
+              <p>
+
+                Developed during
+                ONGC Summer
+                Internship 2026.
+
+              </p>
+
+            </>
+
+          )}
+
+        </main>
+
+      </div>
 
     </div>
   );
